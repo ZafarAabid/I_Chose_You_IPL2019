@@ -9,7 +9,21 @@ public class ComparatorParameters {
             public Comparator getComparator(){
                 return  Comparator.<IplBatsmanData,String>comparing(census -> census.playersAvg);
             }
+        },STRIKE_RATE{
+            public Comparator getComparator(){
+                return  Comparator.<IplBatsmanData,Double>comparing(census -> census.playersStrikeRate);
+            }
+        },SIXES{
+            public Comparator getComparator(){
+                return  Comparator.<IplBatsmanData,Double>comparing(census -> census.playersStrikeRate);
+            }
+        },FOUR{
+            public Comparator getComparator(){
+                return  Comparator.<IplBatsmanData,Double>comparing(census -> census.playersStrikeRate);
+            }
         };
+
+
         public Comparator getComparator(){ return null; }
     }
 
