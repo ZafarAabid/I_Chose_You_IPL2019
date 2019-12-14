@@ -1,3 +1,4 @@
+import com.ipl.ComparatorParameters;
 import com.ipl.IPLAnalyserException;
 import com.ipl.IPLAnalyser;
 import com.ipl.IplBatsmanData;
@@ -25,7 +26,7 @@ public class IPL2019AnalyserTest {
         IPLAnalyser iplAnalyzer = new IPLAnalyser();
         try {
             List<IplBatsmanData> iplDataList = iplAnalyzer.loadBattingData(IplBatsmanData.class, IPL_BATTING_DATA_CSV_FILE);
-            Assert.assertEquals("David Warner", (iplDataList.get(0).PlayerName).trim());
+            Assert.assertEquals("David Warner", (iplDataList.get(0).playerName).trim());
         } catch (IPLAnalyserException e) {
             e.printStackTrace();
         }
@@ -36,11 +37,11 @@ public class IPL2019AnalyserTest {
         IPLAnalyser iplAnalyzer = new IPLAnalyser();
         try {
             List<IplBatsmanData> iplDataList = iplAnalyzer.loadBattingData(IplBatsmanData.class, IPL_SAMPLE_BATTING_DATA_CSV_FILE);
-            Assert.assertEquals("Andre Russell", (iplDataList.get(0).PlayerName).trim());
-            Assert.assertEquals("Virat Kohli", (iplDataList.get(1).PlayerName).trim());
-            Assert.assertEquals("AB de Villiers", (iplDataList.get(2).PlayerName).trim());
-            Assert.assertEquals("MS Dhoni", (iplDataList.get(3).PlayerName).trim());
-            Assert.assertEquals("Moeen Ali", (iplDataList.get(4).PlayerName).trim());
+            Assert.assertEquals("Andre Russell", (iplDataList.get(0).playerName).trim());
+            Assert.assertEquals("Virat Kohli", (iplDataList.get(1).playerName).trim());
+            Assert.assertEquals("AB de Villiers", (iplDataList.get(2).playerName).trim());
+            Assert.assertEquals("MS Dhoni", (iplDataList.get(3).playerName).trim());
+            Assert.assertEquals("Moeen Ali", (iplDataList.get(4).playerName).trim());
         } catch (IPLAnalyserException e) {
             e.printStackTrace();
         }
@@ -71,6 +72,34 @@ public class IPL2019AnalyserTest {
         IPLAnalyser iplAnalyzer = new IPLAnalyser();
         try {
             List<IplBatsmanData> iplDataList = iplAnalyzer.loadBattingData(IplBatsmanData.class, IPL_BATTING_DATA_CSV_FILE_WITH_WRONG_DELIMETER);
+        } catch (IPLAnalyserException e) {
+            Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+        }
+    }
+
+    @Test
+    public void forGivenCsv_WhenFetchTheData_IfSortedByBattingAveragefullReturnTrue() {
+        IPLAnalyser iplAnalyzer = new IPLAnalyser();
+        try {
+            List<IplBatsmanData> iplDataList = iplAnalyzer.loadBattingData(IplBatsmanData.class, IPL_BATTING_DATA_CSV_FILE);
+            iplDataList = iplAnalyzer.sortByParamter(ComparatorParameters.Parameter.AVERAGE,iplDataList);
+            Assert.assertEquals("Harpreet Brar", (iplDataList.get(0).playerName).trim());
+        } catch (IPLAnalyserException e) {
+            Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+        }
+    }
+
+    @Test
+    public void forGivenSampleCsv_WhenFetchTheData_IfSortedByBattingAveragefullReturnTrue() {
+        IPLAnalyser iplAnalyzer = new IPLAnalyser();
+        try {
+            List<IplBatsmanData> iplDataList = iplAnalyzer.loadBattingData(IplBatsmanData.class, IPL_SAMPLE_BATTING_DATA_CSV_FILE);
+            iplDataList = iplAnalyzer.sortByParamter(ComparatorParameters.Parameter.AVERAGE,iplDataList);
+            Assert.assertEquals("Moeen Ali", (iplDataList.get(0).playerName).trim());
+            Assert.assertEquals("Virat Kohli", (iplDataList.get(1).playerName).trim());
+            Assert.assertEquals("AB de Villiers", (iplDataList.get(2).playerName).trim());
+            Assert.assertEquals("Andre Russell", (iplDataList.get(3).playerName).trim());
+            Assert.assertEquals("MS Dhoni", (iplDataList.get(4).playerName).trim());
         } catch (IPLAnalyserException e) {
             Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
         }
