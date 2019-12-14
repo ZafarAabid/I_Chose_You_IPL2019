@@ -56,6 +56,14 @@ public class IPL2019AnalyserTest {
         }
     }
 
+    @Test
+    public void forGivenCsv_WithWrongNullFile_shouldThrowException() {
+        IPLAnalyser iplAnalyzer = new IPLAnalyser();
+        try {
+            List<IplBatsmanData> iplDataList = iplAnalyzer.loadBattingData(IplBatsmanData.class, IPL_BATTING_DATA_CSV_FILE_WITH_NullFILE);
+        } catch (IPLAnalyserException e) {
+            Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+        }
     }
 
 }
