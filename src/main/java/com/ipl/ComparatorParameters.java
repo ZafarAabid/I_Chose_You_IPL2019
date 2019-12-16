@@ -18,8 +18,6 @@ public class ComparatorParameters {
                 return  Comparator.<IplBatsmanData,Double>comparing(census -> census.playersStrikeRate);
             }
         };
-
-
         public Comparator getComparator(){ return null; }
     }
 
