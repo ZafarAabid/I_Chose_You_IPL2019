@@ -33,17 +33,19 @@ public class IPLAnalyser {
         }
     }
 
-    public List<IplBatsmanData> sortByParamter(List<IplBatsmanData> iplDataList, ComparatorParameters.Parameter parameter) {
-
-        Comparator comparator = ComparatorParameters.getComparator(parameter);
+    public List<IplBatsmanData> sortByParamter(List<IplBatsmanData> iplDataList, ComparatorParameters.Parameter... parameter) {
+        Comparator comparator = ComparatorParameters.getComparator(parameter[0]);
+        if (parameter.length > 1) {
+            comparator = ComparatorParameters.getComparator(parameter[0]).thenComparing(ComparatorParameters.getComparator(parameter[1]));
+        }
         List dataList = (List) iplDataList.stream()
                 .sorted(comparator)
                 .collect(Collectors.toList());
-        iplDataList.forEach(System.out::println);
+        dataList.forEach(System.out::println);
         return dataList;
     }
 
-    public List<IplBatsmanData> strikeRateBasedOnBoundries(List<IplBatsmanData> iplDataList, ComparatorParameters.Parameter parameter) {
+    public List<IplBatsmanData> strikeRateBasedOnBoundries(List<IplBatsmanData> iplDataList, ComparatorParameters.Parameter... parameter) {
 
         for (IplBatsmanData batsmanData : iplDataList
         ) {
