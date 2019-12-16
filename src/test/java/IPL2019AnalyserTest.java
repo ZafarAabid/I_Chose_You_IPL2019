@@ -28,6 +28,7 @@ public class IPL2019AnalyserTest {
         IPLAnalyser iplAnalyzer = new IPLAnalyser();
         try {
             List<IplBatsmanData> iplDataList = iplAnalyzer.loadBattingData(IplBatsmanData.class, IPL_BATTING_DATA_CSV_FILE);
+            iplDataList.forEach(System.out::println);
             Assert.assertEquals("David Warner", (iplDataList.get(0).playerName).trim());
         } catch (IPLAnalyserException e) {
             e.printStackTrace();
@@ -84,7 +85,7 @@ public class IPL2019AnalyserTest {
         IPLAnalyser iplAnalyzer = new IPLAnalyser();
         try {
             List<IplBatsmanData> iplDataList = iplAnalyzer.loadBattingData(IplBatsmanData.class, IPL_BATTING_DATA_CSV_FILE);
-            iplDataList = iplAnalyzer.sortByParamter(ComparatorParameters.Parameter.AVERAGE,iplDataList);
+            iplDataList = iplAnalyzer.sortByParamter(iplDataList, ComparatorParameters.Parameter.AVERAGE);
             Assert.assertEquals("Harpreet Brar", (iplDataList.get(0).playerName).trim());
         } catch (IPLAnalyserException e) {
             Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
@@ -97,7 +98,7 @@ public class IPL2019AnalyserTest {
         try {
             List<IplBatsmanData> iplDataList = iplAnalyzer.loadBattingData(IplBatsmanData.class, IPL_SAMPLE_BATTING_DATA_CSV_FILE);
 
-            iplDataList = iplAnalyzer.sortByParamter(ComparatorParameters.Parameter.AVERAGE,iplDataList);
+            iplDataList = iplAnalyzer.sortByParamter(iplDataList, ComparatorParameters.Parameter.AVERAGE);
 
             Assert.assertEquals("Moeen Ali", (iplDataList.get(0).playerName).trim());
             Assert.assertEquals("Virat Kohli", (iplDataList.get(1).playerName).trim());
@@ -114,8 +115,8 @@ public class IPL2019AnalyserTest {
         IPLAnalyser iplAnalyzer = new IPLAnalyser();
         try {
             List<IplBatsmanData> iplDataList = iplAnalyzer.loadBattingData(IplBatsmanData.class, IPL_BATTING_DATA_CSV_FILE);
-            iplDataList = iplAnalyzer.sortByParamter(ComparatorParameters.Parameter.STRIKE_RATE,iplDataList);
-            Assert.assertEquals("Harpreet Brar", (iplDataList.get(0).playerName).trim());
+            iplDataList = iplAnalyzer.sortByParamter(iplDataList, ComparatorParameters.Parameter.STRIKE_RATE);
+            Assert.assertEquals("Bhuvneshwar Kumar", (iplDataList.get(0).playerName).trim());
         } catch (IPLAnalyserException e) {
             Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
         }
@@ -127,7 +128,7 @@ public class IPL2019AnalyserTest {
         try {
             List<IplBatsmanData> iplDataList = iplAnalyzer.loadBattingData(IplBatsmanData.class, IPL_SAMPLE_BATTING_DATA_CSV_FILE);
 
-            iplDataList = iplAnalyzer.sortByParamter(ComparatorParameters.Parameter.STRIKE_RATE,iplDataList);
+            iplDataList = iplAnalyzer.sortByParamter(iplDataList, ComparatorParameters.Parameter.STRIKE_RATE);
 
             Assert.assertEquals("MS Dhoni", (iplDataList.get(0).playerName).trim());
             Assert.assertEquals("Virat Kohli", (iplDataList.get(1).playerName).trim());
@@ -138,6 +139,4 @@ public class IPL2019AnalyserTest {
             Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
         }
     }
-
-
 }
