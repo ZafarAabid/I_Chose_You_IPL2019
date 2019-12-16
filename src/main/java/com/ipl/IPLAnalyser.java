@@ -4,6 +4,7 @@ import com.csvBuilder.CSVBuilderException;
 import com.csvBuilder.CSVBuilderFactory;
 import com.csvBuilder.ICSVBuilder;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -18,6 +19,9 @@ import java.util.stream.StreamSupport;
 public class IPLAnalyser {
     public List loadBattingData(Class<IplBatsmanData> className, String iplBattingDataCsvFile) throws IPLAnalyserException {
         List dataList = new ArrayList();
+        if (new File(iplBattingDataCsvFile).length()==0 | new File(iplBattingDataCsvFile)==null){
+            throw new IPLAnalyserException("Given file is either empty or null",IPLAnalyserException.ExceptionType.NO_SUCH_FILE_ERROR);
+        }
         try (Reader reader = Files.newBufferedReader(Paths.get(iplBattingDataCsvFile))) {
             ICSVBuilder csvbuilder = CSVBuilderFactory.createCsvbuilder();
             Iterator IndiaStateCodeIterator = csvbuilder.getCsvFileIterator(reader, className);
@@ -46,7 +50,6 @@ public class IPLAnalyser {
     }
 
     public List<IplBatsmanData> strikeRateBasedOnBoundries(List<IplBatsmanData> iplDataList, ComparatorParameters.Parameter... parameter) {
-
         for (IplBatsmanData batsmanData : iplDataList
         ) {
             batsmanData.setPlayersStrikeRate(((double) batsmanData.getPlayers6s() * 6 + batsmanData.getPlayers4s() * 4) / batsmanData.getPlayers6s() + batsmanData.getPlayers4s());

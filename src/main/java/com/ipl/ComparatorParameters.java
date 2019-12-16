@@ -17,6 +17,10 @@ public class ComparatorParameters {
             public Comparator getComparator(){
                 return  Comparator.<IplBatsmanData,Double>comparing(census -> census.playersStrikeRate).reversed();
             }
+        },MAX_RUNS{
+            public Comparator getComparator(){
+                return  Comparator.<IplBatsmanData,Double>comparing(census -> census.playersRun).reversed();
+            }
         };
         public Comparator getComparator(){ return null; }
     }
