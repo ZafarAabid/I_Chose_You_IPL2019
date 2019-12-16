@@ -36,11 +36,11 @@ public class IPLAnalyser {
     public List<IplBatsmanData> sortByParamter(List<IplBatsmanData> iplDataList, ComparatorParameters.Parameter parameter) {
 
         Comparator comparator = ComparatorParameters.getComparator(parameter);
-        iplDataList.stream()
+        List dataList = (List) iplDataList.stream()
                 .sorted(comparator)
                 .collect(Collectors.toList());
         iplDataList.forEach(System.out::println);
-        return iplDataList;
+        return dataList;
     }
 
 }
