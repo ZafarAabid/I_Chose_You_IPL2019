@@ -43,4 +43,21 @@ public class IPLAnalyser {
         return dataList;
     }
 
+    public List<IplBatsmanData> strikeRateBasedOnBoundries(List<IplBatsmanData> iplDataList, ComparatorParameters.Parameter parameter) {
+
+        for ( IplBatsmanData batsmanData : iplDataList
+             ) {
+                batsmanData.setPlayersStrikeRate( ((double) batsmanData.getPlayers6s()*6+batsmanData.getPlayers4s()*4)/batsmanData.getPlayers6s()+batsmanData.getPlayers4s());
+
+        }
+        Comparator comparator = ComparatorParameters.getComparator(parameter);
+        List dataList = (List) iplDataList.stream()
+                .sorted(comparator)
+                .collect(Collectors.toList());
+        iplDataList.forEach(System.out::println);
+        return dataList;
+    }
+
+
+
 }
