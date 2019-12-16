@@ -66,7 +66,7 @@ public class IPL2019AnalyserTest {
         try {
             List<IplBatsmanData> iplDataList = iplAnalyzer.loadBattingData(IplBatsmanData.class, IPL_BATTING_DATA_CSV_FILE_WITH_NullFILE);
         } catch (IPLAnalyserException e) {
-            Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+            Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.NO_SUCH_FILE_ERROR);
         }
     }
 
@@ -76,7 +76,7 @@ public class IPL2019AnalyserTest {
         try {
             List<IplBatsmanData> iplDataList = iplAnalyzer.loadBattingData(IplBatsmanData.class, IPL_BATTING_DATA_CSV_FILE_WITH_WRONG_DELIMETER);
         } catch (IPLAnalyserException e) {
-            Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+            Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.NO_SUCH_FILE_ERROR);
         }
     }
 
@@ -175,8 +175,8 @@ public class IPL2019AnalyserTest {
         IPLAnalyser iplAnalyzer = new IPLAnalyser();
         try {
             List<IplBatsmanData> iplDataList = iplAnalyzer.loadBattingData(IplBatsmanData.class, IPL_BATTING_DATA_CSV_FILE);
-            iplDataList = iplAnalyzer.strikeRateBasedOnBoundries(iplDataList, ComparatorParameters.Parameter.AVERAGE, ComparatorParameters.Parameter.STRIKE_RATE);
-            Assert.assertEquals("Ishant Sharma", (iplDataList.get(iplDataList.size()-1).playerName).trim());
+            iplDataList = iplAnalyzer.sortByParamter(iplDataList, ComparatorParameters.Parameter.AVERAGE, ComparatorParameters.Parameter.STRIKE_RATE);
+            Assert.assertEquals("Tim Southee", (iplDataList.get(iplDataList.size()-1).playerName).trim());
         } catch (IPLAnalyserException e) {
             Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
         }
@@ -188,7 +188,7 @@ public class IPL2019AnalyserTest {
         try {
             List<IplBatsmanData> iplDataList = iplAnalyzer.loadBattingData(IplBatsmanData.class, IPL_SAMPLE_BATTING_DATA_CSV_FILE);
 
-            iplDataList = iplAnalyzer.strikeRateBasedOnBoundries(iplDataList, ComparatorParameters.Parameter.AVERAGE, ComparatorParameters.Parameter.STRIKE_RATE);
+            iplDataList = iplAnalyzer.sortByParamter(iplDataList, ComparatorParameters.Parameter.AVERAGE, ComparatorParameters.Parameter.STRIKE_RATE);
 
             Assert.assertEquals("Moeen Ali", (iplDataList.get(4).playerName).trim());
             Assert.assertEquals("Virat Kohli", (iplDataList.get(3).playerName).trim());
@@ -199,4 +199,5 @@ public class IPL2019AnalyserTest {
             Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
         }
     }
+
 }
