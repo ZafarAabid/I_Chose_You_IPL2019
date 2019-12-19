@@ -116,7 +116,7 @@ public class IPL2019AnalyserTest {
         try {
             List<IplBatsmanData> iplDataList = iplAnalyzer.loadBattingData(IplBatsmanData.class, IPL_BATTING_DATA_CSV_FILE);
             iplDataList = iplAnalyzer.sortByParamter(iplDataList, ComparatorParameters.Parameter.STRIKE_RATE);
-            Assert.assertEquals("Bhuvneshwar Kumar", (iplDataList.get(iplDataList.size()-1).playerName).trim());
+            Assert.assertEquals("Ishant Sharma", (iplDataList.get(0).playerName).trim());
         } catch (IPLAnalyserException e) {
             Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
         }
