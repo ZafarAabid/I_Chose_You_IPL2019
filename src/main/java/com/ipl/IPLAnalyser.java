@@ -17,18 +17,18 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 public class IPLAnalyser {
-    public List loadBattingData(Class<IplBatsmanData> className, String iplBattingDataCsvFile) throws IPLAnalyserException {
+    public  List loadBattingData(Class className, String iplBattingDataCsvFile) throws IPLAnalyserException {
         List dataList = new ArrayList();
         if (new File(iplBattingDataCsvFile).length()==0 | new File(iplBattingDataCsvFile)==null){
             throw new IPLAnalyserException("Given file is either empty or null",IPLAnalyserException.ExceptionType.NO_SUCH_FILE_ERROR);
         }
         try (Reader reader = Files.newBufferedReader(Paths.get(iplBattingDataCsvFile))) {
             ICSVBuilder csvbuilder = CSVBuilderFactory.createCsvbuilder();
-            Iterator IndiaStateCodeIterator = csvbuilder.getCsvFileIterator(reader, className);
-            Iterable csvIterable = () -> IndiaStateCodeIterator;
+            Iterator IplIterator = csvbuilder.getCsvFileIterator(reader, className);
+            Iterable csvIterable = () -> IplIterator;
             StreamSupport.stream(csvIterable.spliterator(), false)
                     .map(IplBatsmanData.class::cast)
-                    .forEach(IplBatsmanData -> dataList.add(IplBatsmanData));
+                    .forEach(PlayerData -> dataList.add(PlayerData));
             return dataList;
         } catch (IOException e) {
             throw new IPLAnalyserException(e.getMessage(), IPLAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
@@ -58,4 +58,23 @@ public class IPLAnalyser {
     }
 
 
+    public List<IplBowlerData> loadBowlingData(Class<IplBowlerData> iplBowlerDataClass, String iplBowlingDataCsvFile) throws IPLAnalyserException {
+        List dataList = new ArrayList();
+        if (new File(iplBowlingDataCsvFile).length()==0 | new File(iplBowlingDataCsvFile)==null){
+            throw new IPLAnalyserException("Given file is either empty or null",IPLAnalyserException.ExceptionType.NO_SUCH_FILE_ERROR);
+        }
+        try (Reader reader = Files.newBufferedReader(Paths.get(iplBowlingDataCsvFile))) {
+            ICSVBuilder csvbuilder = CSVBuilderFactory.createCsvbuilder();
+            Iterator IplIterator = csvbuilder.getCsvFileIterator(reader, iplBowlerDataClass);
+            Iterable csvIterable = () -> IplIterator;
+            StreamSupport.stream(csvIterable.spliterator(), false)
+                    .map(IplBowlerData.class::cast)
+                    .forEach(PlayerData -> dataList.add(PlayerData));
+            return dataList;
+        } catch (IOException e) {
+            throw new IPLAnalyserException(e.getMessage(), IPLAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+        } catch (CSVBuilderException e) {
+            throw new IPLAnalyserException(e.getMessage(), IPLAnalyserException.ExceptionType.UNABLE_TO_PARSE);
+        }
+    }
 }
