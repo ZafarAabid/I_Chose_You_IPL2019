@@ -4,28 +4,33 @@ import java.util.Comparator;
 
 public class ComparatorParameters {
 
-    public enum Parameter{
+    public enum BattingParameter {
         AVERAGE{
-            public Comparator getComparator(){
-                return  Comparator.<IplBatsmanData,String>comparing(census -> census.playersAvg).reversed();
+            @Override
+            public Comparator getComparator() {
+                return  Comparator.<IplBatsmanData,Double>comparing(census -> census.playersAvg).reversed();
             }
         },STRIKE_RATE{
-            public Comparator getComparator(){
+            @Override
+            public Comparator getComparator() {
                 return  Comparator.<IplBatsmanData,Double>comparing(census -> census.playersStrikeRate).reversed();
             }
         },STRIKE_RATE_BASED_ON_6s4s{
-            public Comparator getComparator(){
+            @Override
+            public Comparator getComparator() {
                 return  Comparator.<IplBatsmanData,Double>comparing(census -> census.playersStrikeRate).reversed();
             }
+
         },MAX_RUNS{
-            public Comparator getComparator(){
+            @Override
+            public Comparator getComparator() {
                 return  Comparator.<IplBatsmanData,Double>comparing(census -> census.playersRun).reversed();
             }
         };
-        public Comparator getComparator(){ return null; }
+        public abstract Comparator getComparator();
     }
 
-    public static Comparator getComparator(Parameter parameter) {
-            return parameter.getComparator();
+    public static Comparator getComparator(BattingParameter battingParameter) {
+            return battingParameter.getComparator();
         }
 }

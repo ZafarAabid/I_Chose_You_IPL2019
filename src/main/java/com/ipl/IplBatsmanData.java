@@ -15,7 +15,7 @@ public class IplBatsmanData {
     public Double playersRun;
 
     @CsvBindByName(column = "Avg")
-    public String playersAvg;
+    public Double playersAvg;
 
     @CsvBindByName(column = "StrikeRate")
     public Double playersStrikeRate;
@@ -26,12 +26,16 @@ public class IplBatsmanData {
     @CsvBindByName(column = "4s")
     public Integer players4s;
 
-    public IplBatsmanData(String playerName, Double playersRun, String playersAvg, Double playersStrikeRate, Integer players6s, Integer players4s) {
+    @CsvBindByName(column = "BF")
+    public Integer playerBallsFaced;
+
+    public IplBatsmanData(String playerName, Double playersRun, Double playersAvg, Double playersStrikeRate, Integer players6s, Integer players4s, Integer playerBallsFaced) {
         this.playerName = playerName;
         this.playersRun = playersRun;
         this.playersAvg = playersAvg;
         this.playersStrikeRate = playersStrikeRate;
         this.players6s = players6s;
         this.players4s = players4s;
+        this.playerBallsFaced = playerBallsFaced;
     }
 }

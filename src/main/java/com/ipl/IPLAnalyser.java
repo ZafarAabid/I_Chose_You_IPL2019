@@ -18,10 +18,10 @@ import java.util.stream.StreamSupport;
 
 public class IPLAnalyser {
 
-    public <E>List<E> loadData(Class<E> iplDataClass, String iplDataCsvFile) throws IPLAnalyserException {
+    public <E> List<E> loadData(Class<E> iplDataClass, String iplDataCsvFile) throws IPLAnalyserException {
         List dataList = new ArrayList();
-        if (new File(iplDataCsvFile).length()==0 | new File(iplDataCsvFile)==null){
-            throw new IPLAnalyserException("Given file is either empty or null",IPLAnalyserException.ExceptionType.NO_SUCH_FILE_ERROR);
+        if (new File(iplDataCsvFile).length() == 0 | new File(iplDataCsvFile) == null) {
+            throw new IPLAnalyserException("Given file is either empty or null", IPLAnalyserException.ExceptionType.NO_SUCH_FILE_ERROR);
         }
         try (Reader reader = Files.newBufferedReader(Paths.get(iplDataCsvFile))) {
             ICSVBuilder csvbuilder = CSVBuilderFactory.createCsvbuilder();
@@ -40,11 +40,12 @@ public class IPLAnalyser {
         }
     }
 
-    public <E>List<E> sortByParamter(List<E> iplDataList, ComparatorParameters.Parameter... parameter) {
+    public <E> List<E> sortByParamter(List<E> iplDataList, ComparatorParameters.BattingParameter... parameter) {
         Comparator comparator = ComparatorParameters.getComparator(parameter[0]);
-        if (parameter.length > 1) {
-            comparator = ComparatorParameters.getComparator(parameter[0]).thenComparing(ComparatorParameters.getComparator(parameter[1]));
-        }
+        if (parameter.length > 1)
+            for (int i = 1; i < parameter.length; i++) {
+                comparator = comparator.thenComparing(ComparatorParameters.getComparator(parameter[i]));
+            }
         List dataList = (List) iplDataList.stream()
                 .sorted(comparator)
                 .collect(Collectors.toList());
@@ -52,11 +53,11 @@ public class IPLAnalyser {
         return dataList;
     }
 
-    public List<IplBatsmanData> strikeRateBasedOnBoundries(List<IplBatsmanData> iplDataList, ComparatorParameters.Parameter... parameter) {
+    public List<IplBatsmanData> strikeRateBasedOnBoundries(List<IplBatsmanData> iplDataList, ComparatorParameters.BattingParameter... battingParameter) {
         for (IplBatsmanData batsmanData : iplDataList
         ) {
-            batsmanData.setPlayersStrikeRate(((double) batsmanData.getPlayers6s() * 6 + batsmanData.getPlayers4s() * 4) / batsmanData.getPlayers6s() + batsmanData.getPlayers4s());
+            batsmanData.setPlayersStrikeRate(((double) batsmanData.getPlayers6s() * 6 + batsmanData.getPlayers4s() * 4) / batsmanData.playerBallsFaced);
         }
-        return sortByParamter(iplDataList, parameter);
+        return sortByParamter(iplDataList, battingParameter);
     }
 }
