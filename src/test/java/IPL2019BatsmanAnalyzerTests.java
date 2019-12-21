@@ -1,7 +1,4 @@
-import com.ipl.ComparatorParameters;
-import com.ipl.IPLAnalyserException;
-import com.ipl.IPLAnalyser;
-import com.ipl.IplBatsmanData;
+import com.ipl.*;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -27,7 +24,7 @@ public class IPL2019BatsmanAnalyzerTests {
     public void forGivenCsv_WhenFetchTheData_IfSuccessfullReturnTrue() {
         IPLAnalyser iplAnalyzer = new IPLAnalyser();
         try {
-            List<IplBatsmanData> iplDataList = iplAnalyzer.loadData(IplBatsmanData.class, IPL_BATTING_DATA_CSV_FILE);
+            List<IplPlayersDAO> iplDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BATTING, IPL_BATTING_DATA_CSV_FILE);
             iplDataList.forEach(System.out::println);
             Assert.assertEquals("David Warner", (iplDataList.get(0).playerName).trim());
         } catch (IPLAnalyserException e) {
@@ -39,7 +36,7 @@ public class IPL2019BatsmanAnalyzerTests {
     public void forGivenCsvSample_WhenFetchTheData_IfSuccessfullReturnTrue() {
         IPLAnalyser iplAnalyzer = new IPLAnalyser();
         try {
-            List<IplBatsmanData> iplDataList = iplAnalyzer.loadData(IplBatsmanData.class, IPL_SAMPLE_BATTING_DATA_CSV_FILE);
+            List<IplPlayersDAO> iplDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BATTING, IPL_SAMPLE_BATTING_DATA_CSV_FILE);
             Assert.assertEquals("Andre Russell", (iplDataList.get(0).playerName).trim());
             Assert.assertEquals("Virat Kohli", (iplDataList.get(1).playerName).trim());
             Assert.assertEquals("AB de Villiers", (iplDataList.get(2).playerName).trim());
@@ -54,7 +51,7 @@ public class IPL2019BatsmanAnalyzerTests {
     public void forGivenCsv_WithWrongFileType_shouldThrowException() {
         IPLAnalyser iplAnalyzer = new IPLAnalyser();
         try {
-            List<IplBatsmanData> iplDataList = iplAnalyzer.loadData(IplBatsmanData.class, IPL_BATTING_DATA_CSV_FILE_WITH_WRONG_FILETYPE);
+            List<IplPlayersDAO> iplDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BATTING, IPL_BATTING_DATA_CSV_FILE_WITH_WRONG_FILETYPE);
         } catch (IPLAnalyserException e) {
             Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
         }
@@ -64,7 +61,7 @@ public class IPL2019BatsmanAnalyzerTests {
     public void forGivenCsv_WithWrongNullFile_shouldThrowException() {
         IPLAnalyser iplAnalyzer = new IPLAnalyser();
         try {
-            List<IplBatsmanData> iplDataList = iplAnalyzer.loadData(IplBatsmanData.class, IPL_BATTING_DATA_CSV_FILE_WITH_NullFILE);
+            List<IplPlayersDAO> iplDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BATTING, IPL_BATTING_DATA_CSV_FILE_WITH_NullFILE);
         } catch (IPLAnalyserException e) {
             Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.NO_SUCH_FILE_ERROR);
         }
@@ -74,7 +71,7 @@ public class IPL2019BatsmanAnalyzerTests {
     public void forGivenCsv_WithWrongDelimeter_shouldThrowException() {
         IPLAnalyser iplAnalyzer = new IPLAnalyser();
         try {
-            List<IplBatsmanData> iplDataList = iplAnalyzer.loadData(IplBatsmanData.class, IPL_BATTING_DATA_CSV_FILE_WITH_WRONG_DELIMETER);
+            List<IplPlayersDAO> iplDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BATTING, IPL_BATTING_DATA_CSV_FILE_WITH_WRONG_DELIMETER);
         } catch (IPLAnalyserException e) {
             Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.NO_SUCH_FILE_ERROR);
         }
@@ -84,7 +81,7 @@ public class IPL2019BatsmanAnalyzerTests {
     public void forGivenCsv_WhenFetchTheData_IfSortedByBattingAveragefullReturnTrue() {
         IPLAnalyser iplAnalyzer = new IPLAnalyser();
         try {
-            List<IplBatsmanData> iplDataList = iplAnalyzer.loadData(IplBatsmanData.class, IPL_BATTING_DATA_CSV_FILE);
+            List<IplPlayersDAO> iplDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BATTING, IPL_BATTING_DATA_CSV_FILE);
             iplDataList = iplAnalyzer.sortByParamter(iplDataList, ComparatorParameters.BattingParameter.AVERAGE);
             Assert.assertEquals("Tim Southee", (iplDataList.get(iplDataList.size()-1).playerName).trim());
         } catch (IPLAnalyserException e) {
@@ -96,7 +93,7 @@ public class IPL2019BatsmanAnalyzerTests {
     public void forGivenSampleCsv_WhenFetchTheData_IfSortedByBattingAveragefullReturnTrue() {
         IPLAnalyser iplAnalyzer = new IPLAnalyser();
         try {
-            List<IplBatsmanData> iplDataList = iplAnalyzer.loadData(IplBatsmanData.class, IPL_SAMPLE_BATTING_DATA_CSV_FILE);
+            List<IplPlayersDAO> iplDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BATTING, IPL_SAMPLE_BATTING_DATA_CSV_FILE);
 
             iplDataList = iplAnalyzer.sortByParamter(iplDataList, ComparatorParameters.BattingParameter.AVERAGE);
 
@@ -114,7 +111,7 @@ public class IPL2019BatsmanAnalyzerTests {
     public void forGivenCsv_WhenFetchTheData_IfSortedByStrikeRatefullReturnTrue() {
         IPLAnalyser iplAnalyzer = new IPLAnalyser();
         try {
-            List<IplBatsmanData> iplDataList = iplAnalyzer.loadData(IplBatsmanData.class, IPL_BATTING_DATA_CSV_FILE);
+            List<IplPlayersDAO> iplDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BATTING, IPL_BATTING_DATA_CSV_FILE);
             iplDataList = iplAnalyzer.sortByParamter(iplDataList, ComparatorParameters.BattingParameter.STRIKE_RATE);
             Assert.assertEquals("Bhuvneshwar Kumar", (iplDataList.get(iplDataList.size()-1).playerName).trim());
         } catch (IPLAnalyserException e) {
@@ -126,7 +123,7 @@ public class IPL2019BatsmanAnalyzerTests {
     public void forGivenSampleCsv_WhenFetchTheData_IfSortedByStrikeRatefullReturnTrue() {
         IPLAnalyser iplAnalyzer = new IPLAnalyser();
         try {
-            List<IplBatsmanData> iplDataList = iplAnalyzer.loadData(IplBatsmanData.class, IPL_SAMPLE_BATTING_DATA_CSV_FILE);
+            List<IplPlayersDAO> iplDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BATTING, IPL_SAMPLE_BATTING_DATA_CSV_FILE);
 
             iplDataList = iplAnalyzer.sortByParamter(iplDataList, ComparatorParameters.BattingParameter.STRIKE_RATE);
 
@@ -144,7 +141,7 @@ public class IPL2019BatsmanAnalyzerTests {
     public void forGivenCsv_WhenFetchTheData_IfSortedBy6sAnd4sReturnTrue() {
         IPLAnalyser iplAnalyzer = new IPLAnalyser();
         try {
-            List<IplBatsmanData> iplDataList = iplAnalyzer.loadData(IplBatsmanData.class, IPL_BATTING_DATA_CSV_FILE);
+            List<IplPlayersDAO> iplDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BATTING, IPL_BATTING_DATA_CSV_FILE);
             iplDataList = iplAnalyzer.strikeRateBasedOnBoundries(iplDataList, ComparatorParameters.BattingParameter.STRIKE_RATE_BASED_ON_6s4s);
             Assert.assertEquals("Ishant Sharma", (iplDataList.get(0).playerName).trim());
         } catch (IPLAnalyserException e) {
@@ -156,7 +153,7 @@ public class IPL2019BatsmanAnalyzerTests {
     public void forGivenSampleCsv_WhenFetchTheData_IfSortedBy6sAnd4sReturnTrue() {
         IPLAnalyser iplAnalyzer = new IPLAnalyser();
         try {
-            List<IplBatsmanData> iplDataList = iplAnalyzer.loadData(IplBatsmanData.class, IPL_SAMPLE_BATTING_DATA_CSV_FILE);
+            List<IplPlayersDAO> iplDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BATTING, IPL_SAMPLE_BATTING_DATA_CSV_FILE);
 
             iplDataList = iplAnalyzer.strikeRateBasedOnBoundries(iplDataList, ComparatorParameters.BattingParameter.STRIKE_RATE_BASED_ON_6s4s);
 
@@ -174,9 +171,9 @@ public class IPL2019BatsmanAnalyzerTests {
     public void forGivenCsv_WhenFetchTheData_IfSortedByAverageWithStrikeRateReturnTrue() {
         IPLAnalyser iplAnalyzer = new IPLAnalyser();
         try {
-            List<IplBatsmanData> iplDataList = iplAnalyzer.loadData(IplBatsmanData.class, IPL_BATTING_DATA_CSV_FILE);
+            List<IplPlayersDAO> iplDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BATTING, IPL_BATTING_DATA_CSV_FILE);
             iplDataList = iplAnalyzer.sortByParamter(iplDataList, ComparatorParameters.BattingParameter.AVERAGE, ComparatorParameters.BattingParameter.STRIKE_RATE);
-            Assert.assertEquals("Tim Southee", (iplDataList.get(0).playerName).trim());
+            Assert.assertEquals("MS Dhoni", (iplDataList.get(0).playerName).trim());
         } catch (IPLAnalyserException e) {
             Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
         }
@@ -186,7 +183,7 @@ public class IPL2019BatsmanAnalyzerTests {
     public void forGivenSampleCsv_WhenFetchTheData_IfSortedByAverageWithStrikeRateReturnTrue() {
         IPLAnalyser iplAnalyzer = new IPLAnalyser();
         try {
-            List<IplBatsmanData> iplDataList = iplAnalyzer.loadData(IplBatsmanData.class, IPL_SAMPLE_BATTING_DATA_CSV_FILE);
+            List<IplPlayersDAO> iplDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BATTING, IPL_SAMPLE_BATTING_DATA_CSV_FILE);
 
             iplDataList = iplAnalyzer.sortByParamter(iplDataList, ComparatorParameters.BattingParameter.AVERAGE, ComparatorParameters.BattingParameter.STRIKE_RATE);
 
@@ -204,7 +201,7 @@ public class IPL2019BatsmanAnalyzerTests {
     public void forGivenCsv_WhenFetchTheData_IfSortedByMaxRunWithBestAverageRateReturnTrue() {
         IPLAnalyser iplAnalyzer = new IPLAnalyser();
         try {
-            List<IplBatsmanData> iplDataList = iplAnalyzer.loadData(IplBatsmanData.class, IPL_BATTING_DATA_CSV_FILE);
+            List<IplPlayersDAO> iplDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BATTING, IPL_BATTING_DATA_CSV_FILE);
             iplDataList = iplAnalyzer.sortByParamter(iplDataList, ComparatorParameters.BattingParameter.MAX_RUNS, ComparatorParameters.BattingParameter.AVERAGE);
             Assert.assertEquals("David Warner", (iplDataList.get(0).playerName).trim());
         } catch (IPLAnalyserException e) {
@@ -216,7 +213,7 @@ public class IPL2019BatsmanAnalyzerTests {
     public void forGivenSampleCsv_WhenFetchTheData_IfSortedByMaxRunWithBestAverageRateReturnTrue() {
         IPLAnalyser iplAnalyzer = new IPLAnalyser();
         try {
-            List<IplBatsmanData> iplDataList = iplAnalyzer.loadData(IplBatsmanData.class, IPL_SAMPLE_BATTING_DATA_CSV_FILE);
+            List<IplPlayersDAO> iplDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BATTING, IPL_SAMPLE_BATTING_DATA_CSV_FILE);
 
             iplDataList = iplAnalyzer.sortByParamter(iplDataList, ComparatorParameters.BattingParameter.MAX_RUNS, ComparatorParameters.BattingParameter.AVERAGE);
 

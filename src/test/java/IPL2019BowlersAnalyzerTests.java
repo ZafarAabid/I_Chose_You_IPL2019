@@ -1,6 +1,4 @@
-import com.ipl.IPLAnalyser;
-import com.ipl.IPLAnalyserException;
-import com.ipl.IplBowlerData;
+import com.ipl.*;
 import org.junit.Assert;
 import org.junit.Test;
 import java.util.List;
@@ -25,7 +23,7 @@ public class IPL2019BowlersAnalyzerTests {
     public void forGivenCsv_WhenFetchTheData_IfSuccessfullReturnTrue() {
         IPLAnalyser iplAnalyzer = new IPLAnalyser();
         try {
-            List<IplBowlerData> iplDataList = iplAnalyzer.loadData(IplBowlerData.class, IPL_BOWLING_DATA_CSV_FILE);
+            List<IplBowlerData> iplDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BOWLING, IPL_BOWLING_DATA_CSV_FILE);
             iplDataList.forEach(System.out::println);
             Assert.assertEquals("Imran Tahir", (iplDataList.get(0).playerName).trim());
         } catch (IPLAnalyserException e) {
@@ -37,7 +35,7 @@ public class IPL2019BowlersAnalyzerTests {
     public void forGivenCsvSample_WhenFetchTheData_IfSuccessfullReturnTrue() {
         IPLAnalyser iplAnalyzer = new IPLAnalyser();
         try {
-            List<IplBowlerData> iplDataList = iplAnalyzer.loadData(IplBowlerData.class, IPL_SAMPLE_BOWLING_DATA_CSV_FILE);
+            List<IplBowlerData> iplDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BOWLING, IPL_SAMPLE_BOWLING_DATA_CSV_FILE);
             Assert.assertEquals("Imran Tahir", (iplDataList.get(0).playerName).trim());
             Assert.assertEquals("Yuzvendra Chahal", (iplDataList.get(1).playerName).trim());
             Assert.assertEquals("Harbhajan Singh", (iplDataList.get(2).playerName).trim());
@@ -48,4 +46,39 @@ public class IPL2019BowlersAnalyzerTests {
         }
     }
 
+    @Test
+    public void forGivenBowlingCsv_WhenFetchTheData_IfSortedByBowlingAveragefullReturnTrue() {
+        IPLAnalyser iplAnalyzer = new IPLAnalyser();
+        try {
+            List<IplPlayersDAO> iplDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BOWLING, IPL_BOWLING_DATA_CSV_FILE);
+            iplDataList = iplAnalyzer.sortByParamter(iplDataList, ComparatorParameters.BowlingParameter.AVERAGE);
+            Assert.assertEquals("Liam Livingstone", (iplDataList.get(iplDataList.size()-1).playerName).trim());
+        } catch (IPLAnalyserException e) {
+            Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+        }
+    }
+
+    @Test
+    public void forGivenBowlingCsv_WhenFetchTheData_IfSortedByBowlingStrikeRatefullReturnTrue() {
+        IPLAnalyser iplAnalyzer = new IPLAnalyser();
+        try {
+            List<IplPlayersDAO> iplDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BOWLING, IPL_BOWLING_DATA_CSV_FILE);
+            iplDataList = iplAnalyzer.sortByParamter(iplDataList, ComparatorParameters.BowlingParameter.STRIKE_RATE);
+            Assert.assertEquals("Krishnappa Gowtham", (iplDataList.get(0).playerName).trim());
+        } catch (IPLAnalyserException e) {
+            Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+        }
+    }
+
+    @Test
+    public void forSampleGivenBowlingCsv_WhenFetchTheData_IfSortedByBowlingStrikeRatefullReturnTrue() {
+        IPLAnalyser iplAnalyzer = new IPLAnalyser();
+        try {
+            List<IplPlayersDAO> iplDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BOWLING, IPL_SAMPLE_BOWLING_DATA_CSV_FILE);
+            iplDataList = iplAnalyzer.sortByParamter(iplDataList, ComparatorParameters.BowlingParameter.STRIKE_RATE);
+            Assert.assertEquals("Ravindra Jadeja", (iplDataList.get(0).playerName).trim());
+        } catch (IPLAnalyserException e) {
+            Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+        }
+    }
 }
