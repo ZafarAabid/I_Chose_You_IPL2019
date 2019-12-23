@@ -13,11 +13,9 @@ POS,PLAYER          ,Mat ,Inns,Ov    ,Runs,Wkts,BBI,Avg    ,Econ  ,SR    ,4w ,5w
 */
 public class IPL2019BowlersAnalyzerTests {
     public static final String IPL_BOWLING_DATA_CSV_FILE = "/home/user/workspace/IchooseYouIPL/src/test/resources/IPL2019FactsheetMostWkts.csv";
-    public static final String IPL_BOWLING_DATA_CSV_FILE_WITH_WRONG_FILETYPE = "/home/user/workspace/IchooseYouIPL/src/test/resources/IPL2019FactsheetMostRuns.txt";
-    public static final String IPL_BOWLING_DATA_CSV_FILE_WITH_NullFILE = "/home/user/workspace/IchooseYouIPL/src/test/resources/IPL2019NullFile.txt";
-    public static final String IPL_BOWLING_DATA_CSV_FILE_WITH_WRONG_DELIMETER = "/home/user/workspace/IchooseYouIPL/src/test/resources/IPL2019NullFile.txt";
     public static final String IPL_SAMPLE_BOWLING_DATA_CSV_FILE = "/home/user/workspace/IchooseYouIPL/src/test/resources/IPL2019SampleFactsheetMostWkts.csv";
 
+    DataSorting dataSorting = new DataSorting();
 
     @Test
     public void forGivenCsv_WhenFetchTheData_IfSuccessfullReturnTrue() {
@@ -51,7 +49,7 @@ public class IPL2019BowlersAnalyzerTests {
         IPLAnalyser iplAnalyzer = new IPLAnalyser();
         try {
             List<IplPlayersDAO> iplDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BOWLING, IPL_BOWLING_DATA_CSV_FILE);
-            iplDataList = iplAnalyzer.sortByParamter(iplDataList, ComparatorParameters.BowlingParameter.AVERAGE);
+            iplDataList = dataSorting.sortByParamter(iplDataList, ComparatorParameters.BowlingParameter.AVERAGE);
             Assert.assertEquals("Liam Livingstone", (iplDataList.get(iplDataList.size()-1).playerName).trim());
         } catch (IPLAnalyserException e) {
             Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
@@ -63,7 +61,7 @@ public class IPL2019BowlersAnalyzerTests {
         IPLAnalyser iplAnalyzer = new IPLAnalyser();
         try {
             List<IplPlayersDAO> iplDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BOWLING, IPL_BOWLING_DATA_CSV_FILE);
-            iplDataList = iplAnalyzer.sortByParamter(iplDataList, ComparatorParameters.BowlingParameter.STRIKE_RATE);
+            iplDataList = dataSorting.sortByParamter(iplDataList, ComparatorParameters.BowlingParameter.STRIKE_RATE);
             Assert.assertEquals("Krishnappa Gowtham", (iplDataList.get(0).playerName).trim());
         } catch (IPLAnalyserException e) {
             Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
@@ -75,7 +73,7 @@ public class IPL2019BowlersAnalyzerTests {
         IPLAnalyser iplAnalyzer = new IPLAnalyser();
         try {
             List<IplPlayersDAO> iplDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BOWLING, IPL_BOWLING_DATA_CSV_FILE);
-            iplDataList = iplAnalyzer.sortByParamter(iplDataList, ComparatorParameters.BowlingParameter.ECONOMY);
+            iplDataList = dataSorting.sortByParamter(iplDataList, ComparatorParameters.BowlingParameter.ECONOMY);
             Assert.assertEquals("Ben Cutting", (iplDataList.get(0).playerName).trim());
         } catch (IPLAnalyserException e) {
             Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
@@ -87,7 +85,7 @@ public class IPL2019BowlersAnalyzerTests {
         IPLAnalyser iplAnalyzer = new IPLAnalyser();
         try {
             List<IplPlayersDAO> iplDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BOWLING, IPL_SAMPLE_BOWLING_DATA_CSV_FILE);
-            iplDataList = iplAnalyzer.sortByParamter(iplDataList, ComparatorParameters.BowlingParameter.STRIKE_RATE);
+            iplDataList = dataSorting.sortByParamter(iplDataList, ComparatorParameters.BowlingParameter.STRIKE_RATE);
             Assert.assertEquals("Ravindra Jadeja", (iplDataList.get(0).playerName).trim());
         } catch (IPLAnalyserException e) {
             Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
@@ -99,7 +97,7 @@ public class IPL2019BowlersAnalyzerTests {
         IPLAnalyser iplAnalyzer = new IPLAnalyser();
         try {
             List<IplPlayersDAO> iplDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BOWLING, IPL_SAMPLE_BOWLING_DATA_CSV_FILE);
-            iplDataList = iplAnalyzer.sortByParamter(iplDataList, ComparatorParameters.BowlingParameter.ECONOMY);
+            iplDataList = dataSorting.sortByParamter(iplDataList, ComparatorParameters.BowlingParameter.ECONOMY);
             Assert.assertEquals("Alzarri Joseph", (iplDataList.get(0).playerName).trim());
         } catch (IPLAnalyserException e) {
             Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
@@ -111,7 +109,7 @@ public class IPL2019BowlersAnalyzerTests {
         IPLAnalyser iplAnalyzer = new IPLAnalyser();
         try {
             List<IplPlayersDAO> iplDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BOWLING, IPL_SAMPLE_BOWLING_DATA_CSV_FILE);
-            iplDataList = iplAnalyzer.sortByParamter(iplDataList, ComparatorParameters.BowlingParameter.ECONOMY);
+            iplDataList = dataSorting.sortByParamter(iplDataList, ComparatorParameters.BowlingParameter.ECONOMY);
             Assert.assertEquals("Alzarri Joseph", (iplDataList.get(0).playerName).trim());
         } catch (IPLAnalyserException e) {
             Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
