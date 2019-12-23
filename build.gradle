@@ -16,5 +16,7 @@ dependencies {
     compile "com.opencsv:opencsv:4.0"
     compile group: 'org.apache.commons', name: 'commons-csv', version: '1.5'
     compile(files("/home/user/workspace/csvBuilder/out/artifacts/csvBuilder_jar/csvBuilder.jar"))
-
+    compileOnly 'org.projectlombok:lombok:1.18.10'
+    annotationProcessor 'org.projectlombok:lombok:1.18.10'
+ testImplementation 'org.mockito:mockito-core:2.7.22'
 }

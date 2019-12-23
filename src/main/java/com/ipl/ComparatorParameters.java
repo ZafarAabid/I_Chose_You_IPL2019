@@ -37,6 +37,16 @@ public class ComparatorParameters {
             public Comparator getComparator() {
                 return Comparator.<IplPlayersDAO, Double>comparing(census -> census.playersBowlingStrikeRate).reversed();
             }
+        },
+        ECONOMY {
+            public Comparator getComparator() {
+                return Comparator.<IplPlayersDAO, Double>comparing(census -> census.playersEcon).reversed();
+            }
+        },
+        STRIKE_RATE_WITHW4W5 {
+            public Comparator getComparator() {
+                return Comparator.<IplPlayersDAO, Double>comparing(census -> census.playersStrikeRate).thenComparing(iplPlayersDAO -> iplPlayersDAO.players4w).thenComparing(iplPlayersDAO -> iplPlayersDAO.players5w).reversed();
+            }
         };
         public abstract Comparator getComparator();
     }

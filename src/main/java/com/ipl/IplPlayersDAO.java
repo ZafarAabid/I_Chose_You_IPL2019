@@ -6,26 +6,25 @@ import lombok.*;
 @ToString
 
 public class IplPlayersDAO {
-    public String playerName;
-    public Double playersRun;
-    public Double playersBattingAvg;
-    public Double playersStrikeRate;
-    public Integer players6s;
-    public Integer players4s;
-    public Integer playerBallsFaced;
+    public String playerName="";
+    public Double playersRun =0.0;
+    public Double playersBattingAvg=0.0;
+    public Double playersStrikeRate=0.0;
+    public Integer players6s=0;
+    public Integer players4s=0;
+    public Integer playerBallsFaced=0;
 
-    public Double playersMatches;
-    public String playersInnings;
-    public Double playerOvers;
-    public Integer RunGivenByPlayer;
-    public Integer playersWkts;
-    public String playerBBI;
-    public Double playersBwolingAvg;
-    public Double playersEcon;
-    public Double players4w;
-    public Integer players5w;
-    public Double playersBowlingStrikeRate;
-
+    public Double playersMatches=0.0;
+    public String playersInnings="";
+    public Double playerOvers=0.0;
+    public Integer RunGivenByPlayer=0;
+    public Integer playersWkts=0;
+    public String playerBBI="";
+    public Double playersBwolingAvg=0.0;
+    public Double playersEcon=0.0;
+    public Double players4w=0.0;
+    public Integer players5w=0;
+    public Double playersBowlingStrikeRate=0.0;
 
     public IplPlayersDAO() {
     }

@@ -3,6 +3,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Map;
 
 /* IPL_SAMPLE_BATTING_CSV_FILE_DATA_FOR_VALIDATION
 POS,PLAYER          ,Mat ,Inns,Ov    ,Runs,Wkts,BBI,Avg    ,Econ  ,SR    ,4w ,5w,NullFile
@@ -269,6 +270,20 @@ public class IPL2019AnalyserTest {
         }
     }
 
+    @Test
+    public void forGivenTwoCsv_WhenCombinedTheData_IfSortedByStrikeRateWith4w5w_lReturnTrue() {
+        IPLAnalyser iplAnalyzer = new IPLAnalyser();
+        try {
+            List<IplPlayersDAO> batsmanDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BATTING, IPL_BATTING_DATA_CSV_FILE);
+            List<IplPlayersDAO> bowlersDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BOWLING, IPL_BOWLING_DATA_CSV_FILE);
+            List<IplPlayersDAO> mergedIplData = iplAnalyzer.mergingData(batsmanDataList,bowlersDataList);
+
+            batsmanDataList = iplAnalyzer.sortByParamter(mergedIplData, ComparatorParameters.BowlingParameter.STRIKE_RATE_WITHW4W5);
+            Assert.assertEquals("Bhuvneshwar Kumar", (batsmanDataList.get(batsmanDataList.size()-1).playerName).trim());
+        } catch (IPLAnalyserException e) {
+            Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+        }
+    }
 
 
 
