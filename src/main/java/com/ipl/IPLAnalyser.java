@@ -74,4 +74,20 @@ public class IPLAnalyser {
         return sortByParamter(iplDataList, battingParameter);
     }
 
+    public List<IplPlayersDAO> bestBattingWithBowlingAverage(List<IplPlayersDAO> iplDataList, ComparatorParameters.BattingParameter... battingParameter) {
+        for (IplPlayersDAO playersDAO : iplDataList
+        ) {
+            playersDAO.setRating(playersDAO.playersBattingAvg/playersDAO.playersBwolingAvg);
+        }
+        return sortByParamter(iplDataList, battingParameter);
+    }
+
+    public List<IplPlayersDAO> allRounder(List<IplPlayersDAO> iplDataList, ComparatorParameters.BowlingParameter... battingParameter) {
+        for (IplPlayersDAO playersDAO : iplDataList
+        ) {
+            playersDAO.setRating(playersDAO.playersBattingAvg*playersDAO.playersWkts);
+        }
+        return sortByParamter(iplDataList, battingParameter);
+    }
+
 }

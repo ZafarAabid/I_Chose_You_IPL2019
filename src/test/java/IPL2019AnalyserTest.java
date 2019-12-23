@@ -124,6 +124,21 @@ public class IPL2019AnalyserTest {
     }
 
     @Test
+    public void forGivenTwoCsv_WhenCombinedTheData_SortByAllRounder_ReturnBestPlayer() {
+        IPLAnalyser iplAnalyzer = new IPLAnalyser();
+        try {
+            List<IplPlayersDAO> batsmanDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BATTING, IPL_BATTING_DATA_CSV_FILE);
+            List<IplPlayersDAO> bowlersDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BOWLING, IPL_BOWLING_DATA_CSV_FILE);
+            List<IplPlayersDAO> mergedIplData = iplAnalyzer.mergingData(batsmanDataList,bowlersDataList);
+            batsmanDataList = iplAnalyzer.bestBattingWithBowlingAverage(mergedIplData, ComparatorParameters.BattingParameter.BATTING_WITH_BOWLING_AVERAGE);
+            Assert.assertEquals("Harpreet Brar", (batsmanDataList.get(0).playerName).trim());
+
+        } catch (IPLAnalyserException e) {
+            Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+        }
+    }
+
+    @Test
     public void forGivenSampleCsv_WhenFetchTheData_IfSortedByStrikeRatefullReturnTrue() {
         IPLAnalyser iplAnalyzer = new IPLAnalyser();
         try {
@@ -279,12 +294,57 @@ public class IPL2019AnalyserTest {
             List<IplPlayersDAO> mergedIplData = iplAnalyzer.mergingData(batsmanDataList,bowlersDataList);
 
             batsmanDataList = iplAnalyzer.sortByParamter(mergedIplData, ComparatorParameters.BowlingParameter.STRIKE_RATE_WITHW4W5);
-            Assert.assertEquals("Bhuvneshwar Kumar", (batsmanDataList.get(batsmanDataList.size()-1).playerName).trim());
+            batsmanDataList.forEach(System.out::println);
+            Assert.assertEquals("Ishant Sharma", (batsmanDataList.get(0).playerName).trim());
         } catch (IPLAnalyserException e) {
             Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
         }
     }
 
+    @Test
+    public void forGivenTwoCsv_WhenCombinedTheData_IfSortedByBestBowlingAvgWithStrikeRate_lReturnTrue() {
+        IPLAnalyser iplAnalyzer = new IPLAnalyser();
+        try {
+            List<IplPlayersDAO> batsmanDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BATTING, IPL_BATTING_DATA_CSV_FILE);
+            List<IplPlayersDAO> bowlersDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BOWLING, IPL_BOWLING_DATA_CSV_FILE);
+            List<IplPlayersDAO> mergedIplData = iplAnalyzer.mergingData(batsmanDataList,bowlersDataList);
+            batsmanDataList = iplAnalyzer.sortByParamter(mergedIplData,ComparatorParameters.BowlingParameter.BOWLING_AVG, ComparatorParameters.BowlingParameter.STRIKE_RATE);
+            Assert.assertEquals("Krishnappa Gowtham", (batsmanDataList.get(0).playerName).trim());
+        } catch (IPLAnalyserException e) {
+            Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+        }
+    }
+
+    @Test
+    public void forGivenTwoCsv_WhenCombinedTheData_IfSortedByBestBattingWithBestBowlingAvg_lReturnTrue() {
+        IPLAnalyser iplAnalyzer = new IPLAnalyser();
+        try {
+            List<IplPlayersDAO> batsmanDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BATTING, IPL_BATTING_DATA_CSV_FILE);
+            List<IplPlayersDAO> bowlersDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BOWLING, IPL_BOWLING_DATA_CSV_FILE);
+            List<IplPlayersDAO> mergedIplData = iplAnalyzer.mergingData(batsmanDataList,bowlersDataList);
+            batsmanDataList = iplAnalyzer.bestBattingWithBowlingAverage(mergedIplData, ComparatorParameters.BattingParameter.BATTING_WITH_BOWLING_AVERAGE);
+            Assert.assertEquals("Harpreet Brar", (batsmanDataList.get(0).playerName).trim());
+
+        } catch (IPLAnalyserException e) {
+            Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+        }
+    }
+
+    @Test
+    public void forGivenTwoCsv_WhenCombinedTheData_findAllRounder_lReturnTrue() {
+        IPLAnalyser iplAnalyzer = new IPLAnalyser();
+        try {
+            List<IplPlayersDAO> batsmanDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BATTING, IPL_BATTING_DATA_CSV_FILE);
+            List<IplPlayersDAO> bowlersDataList = iplAnalyzer.loadData(IplDataLoaderFactory.DataFor.BOWLING, IPL_BOWLING_DATA_CSV_FILE);
+            List<IplPlayersDAO> mergedIplData = iplAnalyzer.mergingData(batsmanDataList,bowlersDataList);
+            batsmanDataList = iplAnalyzer.allRounder(mergedIplData, ComparatorParameters.BowlingParameter.ALL_ROUNDER);
+            Assert.assertEquals("Hardik Pandya", (batsmanDataList.get(0).playerName).trim());
+            Assert.assertEquals("Andre Russell", (batsmanDataList.get(1).playerName).trim());
+
+        } catch (IPLAnalyserException e) {
+            Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+        }
+    }
 
 
 }

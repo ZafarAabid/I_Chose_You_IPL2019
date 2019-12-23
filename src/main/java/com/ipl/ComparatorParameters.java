@@ -23,6 +23,11 @@ public class ComparatorParameters {
             public Comparator getComparator() {
                 return Comparator.<IplPlayersDAO, Double>comparing(census -> census.playersRun).reversed();
             }
+        },
+        BATTING_WITH_BOWLING_AVERAGE{
+            public Comparator getComparator() {
+                return Comparator.<IplPlayersDAO, Double>comparing(census -> census.rating).reversed();
+            }
         };
         public abstract Comparator getComparator();
     }
@@ -47,7 +52,19 @@ public class ComparatorParameters {
             public Comparator getComparator() {
                 return Comparator.<IplPlayersDAO, Double>comparing(census -> census.playersStrikeRate).thenComparing(iplPlayersDAO -> iplPlayersDAO.players4w).thenComparing(iplPlayersDAO -> iplPlayersDAO.players5w).reversed();
             }
-        };
+        },
+        BOWLING_AVG{
+            public Comparator getComparator() {
+                return Comparator.<IplPlayersDAO, Double>comparing(census -> census.playersBwolingAvg).reversed();
+            }
+        },
+        ALL_ROUNDER{
+            public Comparator getComparator() {
+                return Comparator.<IplPlayersDAO, Double>comparing(census -> census.rating).reversed();
+            }
+        }
+
+        ;
         public abstract Comparator getComparator();
     }
 

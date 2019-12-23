@@ -7,6 +7,8 @@ import lombok.*;
 
 public class IplPlayersDAO {
     public String playerName="";
+    public Double rating =0.0;
+
     public Double playersRun =0.0;
     public Double playersBattingAvg=0.0;
     public Double playersStrikeRate=0.0;
@@ -17,10 +19,10 @@ public class IplPlayersDAO {
     public Double playersMatches=0.0;
     public String playersInnings="";
     public Double playerOvers=0.0;
-    public Integer RunGivenByPlayer=0;
+    public Integer RunGivenByPlayer=99;
     public Integer playersWkts=0;
     public String playerBBI="";
-    public Double playersBwolingAvg=0.0;
+    public Double playersBwolingAvg=99.0;
     public Double playersEcon=0.0;
     public Double players4w=0.0;
     public Integer players5w=0;
@@ -44,7 +46,7 @@ public class IplPlayersDAO {
         playersMatches = bowlerData.playersMatches;
          playersInnings = bowlerData.playersInnings;
          playerOvers = bowlerData.playerOvers;
-         RunGivenByPlayer = bowlerData.playersRun;
+         RunGivenByPlayer = bowlerData.playersRunGiven;
          playersWkts = bowlerData.playersWkts;
          playerBBI = bowlerData.playerBBI;
          playersBwolingAvg = bowlerData.playersAvg;
