@@ -9,8 +9,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.StreamSupport;
 
-public class IplBowlingDataLoader {
-    public static List getDataFile(Reader reader) throws CSVBuilderException {
+public class IplBowlingDataLoader implements IplLoader{
+    public List getDataFile(Reader reader) throws CSVBuilderException {
 
         List<IplPlayersDAO> dataList = new ArrayList();
         ICSVBuilder csvbuilder = CSVBuilderFactory.createCsvbuilder();

@@ -17,10 +17,10 @@ public class IplBowlerData {
     public String playerName;
 
     @CsvBindByName(column = "Mat")
-    public Double playersMatches;
+    public Integer playersMatches;
 
     @CsvBindByName(column = "Inns")
-    public String playersInnings;
+    public Integer playersInnings;
 
     @CsvBindByName(column = "Ov")
     public Double playerOvers;
@@ -32,7 +32,7 @@ public class IplBowlerData {
     public Integer playersWkts;
 
     @CsvBindByName(column = "BBI")
-    public String playerBBI;
+    public Integer playerBBI;
 
     @CsvBindByName(column = "Avg")
     public Double playersAvg;
@@ -49,8 +49,8 @@ public class IplBowlerData {
     @CsvBindByName(column = "SR")
     public Double playersSR;
 
-    public IplBowlerData(String playerName, Double playersMatches, String playersInnings, Double playerOvers,
-                         Integer playersRunGiven, Integer playersWkts, String playerBBI, Double playersAvg,
+    public IplBowlerData(String playerName, Integer playersMatches, Integer playersInnings, Double playerOvers,
+                         Integer playersRunGiven, Integer playersWkts, Integer playerBBI, Double playersAvg,
                          Double playersEcon, Double players4w, Integer players5w, Double playersSR) {
         this.playerName = playerName;
         this.playersMatches = playersMatches;

@@ -10,9 +10,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.StreamSupport;
 
-public class IplBattingLoader {
-    public static List getDataFile(Reader reader) throws CSVBuilderException {
-
+public class IplBattingDataLoader implements IplLoader{
+    public List getDataFile(Reader reader) throws CSVBuilderException {
         List<IplPlayersDAO> dataList = new ArrayList();
         ICSVBuilder csvbuilder = CSVBuilderFactory.createCsvbuilder();
         Iterator<IplBatsmanData> IplIterator = csvbuilder.getCsvFileIterator(reader, IplBatsmanData.class);

@@ -16,12 +16,12 @@ public class IplPlayersDAO {
     public Integer players4s=0;
     public Integer playerBallsFaced=0;
 
-    public Double playersMatches=0.0;
-    public String playersInnings="";
+    public Integer playersMatches=0;
+    public Integer playersInnings=0;
     public Double playerOvers=0.0;
     public Integer RunGivenByPlayer=99;
     public Integer playersWkts=0;
-    public String playerBBI="";
+    public Integer playerBBI=0;
     public Double playersBwolingAvg=99.0;
     public Double playersEcon=0.0;
     public Double players4w=0.0;

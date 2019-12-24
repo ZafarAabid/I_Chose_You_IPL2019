@@ -9,18 +9,18 @@ public class IplDataLoaderFactory {
 
     public enum DataFor {
         BATTING {
-            public List loadData(Reader reader) throws CSVBuilderException {
-                return IplBattingLoader.getDataFile(reader);
+            public IplLoader loadData(Reader reader) throws CSVBuilderException {
+                return new IplBattingDataLoader();
             }
         }, BOWLING {
-            public List loadData(Reader reader) throws CSVBuilderException {
-                return IplBowlingDataLoader.getDataFile(reader);
+            public IplLoader loadData(Reader reader) throws CSVBuilderException {
+                return new IplBowlingDataLoader();
             }
         };
-        public abstract List loadData(Reader reader) throws CSVBuilderException;
+        public abstract IplLoader loadData(Reader reader) throws CSVBuilderException;
     }
 
-    public static List getIplDataFor(DataFor field,Reader reader) throws CSVBuilderException {
+    public IplLoader getIplDataFor(DataFor field,Reader reader) throws CSVBuilderException {
         return field.loadData(reader);
     }
 }

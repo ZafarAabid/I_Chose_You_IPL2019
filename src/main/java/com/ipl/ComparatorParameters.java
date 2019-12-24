@@ -62,13 +62,11 @@ public class ComparatorParameters {
             public Comparator getComparator() {
                 return Comparator.<IplPlayersDAO, Double>comparing(census -> census.rating).reversed();
             }
-        }
-
-        ;
+        };
         public abstract Comparator getComparator();
     }
 
-    public static Comparator getComparator(SortingParamters parameter) {
+    public Comparator getComparator(SortingParamters parameter) {
         return parameter.getComparator();
     }
 }

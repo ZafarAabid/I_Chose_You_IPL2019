@@ -5,12 +5,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class DataSorting {
+    ComparatorParameters comparatorParameters = new ComparatorParameters();
     public List<IplPlayersDAO> sortByParamter(List<IplPlayersDAO> iplDataList, SortingParamters... parameter) {
 
-        Comparator<IplPlayersDAO> comparator = ComparatorParameters.getComparator(parameter[0]);
+        Comparator<IplPlayersDAO> comparator = comparatorParameters.getComparator(parameter[0]);
         if (parameter.length > 1)
             for (int i = 1; i < parameter.length; i++) {
-                comparator = comparator.thenComparing(ComparatorParameters.getComparator(parameter[i]));
+                comparator = comparator.thenComparing(comparatorParameters.getComparator(parameter[i]));
             }
         List dataList = iplDataList.stream()
                 .sorted(comparator)
