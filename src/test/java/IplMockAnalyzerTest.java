@@ -87,6 +87,7 @@ public class IplMockAnalyzerTest {
         Assert.assertEquals(6, output.size());
     }
 
+
     @Test
     public void forGivenAllRounderCsv_WhenFetchTheData_IfSuccessfulReturnTrue() throws IPLAnalyserException, CSVBuilderException {
         IplBowlingDataLoader bowlingDataLoader = mock(IplBowlingDataLoader.class);
@@ -104,26 +105,19 @@ public class IplMockAnalyzerTest {
 
     @Test
     public void forGivenTwoCsv_WhenFetchTheData_IfSuccessfulReturnAllRounderList() throws IPLAnalyserException, CSVBuilderException {
-
         IplBowlingDataLoader bowlingDataLoader = mock(IplBowlingDataLoader.class);
         IplBattingDataLoader battingDataLoader = mock(IplBattingDataLoader.class);
         DataMerging dataMerging = mock(DataMerging.class);
-
         when(bowlingDataLoader.getDataFile(any())).thenReturn(expectedBowlingMap);
         when(battingDataLoader.getDataFile(any())).thenReturn(expectedBattingMap);
         when(dataMerging.mergeData(any(),any())).thenReturn(expectedAllRounderMap);
-
         IPLAnalyser battingAnalyser = new IPLAnalyser(battingDataLoader);
         IPLAnalyser bowlingAnalyser = new IPLAnalyser(bowlingDataLoader);
-
         List<IplPlayersDAO> battingOutput = battingAnalyser.loadData(IPL_BATTING_DATA_CSV_FILE);
         List<IplPlayersDAO> bowlingOutput = bowlingAnalyser.loadData(IPL_BATTING_DATA_CSV_FILE);
         List<IplPlayersDAO> margedData = battingAnalyser.mergingData(bowlingOutput,battingOutput);
-
         margedData.forEach(System.out::println);
-
         Assert.assertEquals(5, battingOutput.size());
-
     }
 
     @Test
@@ -131,7 +125,6 @@ public class IplMockAnalyzerTest {
         IplBowlingDataLoader bowlingDataLoader = mock(IplBowlingDataLoader.class);
         IplBattingDataLoader battingDataLoader = mock(IplBattingDataLoader.class);
         ComparatorParameters comparatorParameters = mock(ComparatorParameters.class);
-        DataSorting dataSorting = new DataSorting();
         try {
             when(bowlingDataLoader.getDataFile(any())).thenReturn(expectedBowlingMap);
             when(battingDataLoader.getDataFile(any())).thenReturn(expectedBattingMap);
@@ -142,7 +135,31 @@ public class IplMockAnalyzerTest {
             List<IplPlayersDAO> battingOutput = battingAnalyser.loadData(IPL_BATTING_DATA_CSV_FILE);
             List<IplPlayersDAO> bowlingOutput = bowlingAnalyser.loadData(IPL_BATTING_DATA_CSV_FILE);
             List<IplPlayersDAO> margedData = battingAnalyser.mergingData(battingOutput, bowlingOutput);
-            List<IplPlayersDAO> SortedDataList = dataSorting.sortByParamter(margedData, ComparatorParameters.BattingParameter.BATTING_WITH_BOWLING_AVERAGE);
+            List<IplPlayersDAO> SortedDataList = battingAnalyser.sortByParamter(margedData, ComparatorParameters.BattingParameter.BATTING_WITH_BOWLING_AVERAGE);
+            SortedDataList.forEach(System.out::println);
+            Assert.assertEquals("Hardik Pandya", (SortedDataList.get(0).playerName).trim());
+        } catch (IPLAnalyserException e) {
+            Assert.assertEquals(e.type, IPLAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+        } catch (CSVBuilderException e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void forGivenTwoCsv_WhenCombinedTheData_returnAllRounderlist_SortedByAverage() {
+        IplBowlingDataLoader bowlingDataLoader = mock(IplBowlingDataLoader.class);
+        IplBattingDataLoader battingDataLoader = mock(IplBattingDataLoader.class);
+        ComparatorParameters comparatorParameters = mock(ComparatorParameters.class);
+        try {
+            when(bowlingDataLoader.getDataFile(any())).thenReturn(expectedBowlingMap);
+            when(battingDataLoader.getDataFile(any())).thenReturn(expectedBattingMap);
+            Comparator comparator = Comparator.<IplPlayersDAO, Double>comparing(census -> census.playersBattingAvg).reversed();
+            when(comparatorParameters.getComparator(notNull())).thenReturn(comparator);
+            IPLAnalyser battingAnalyser = new IPLAnalyser(battingDataLoader);
+            IPLAnalyser bowlingAnalyser = new IPLAnalyser(bowlingDataLoader);
+            List<IplPlayersDAO> battingOutput = battingAnalyser.loadData(IPL_BATTING_DATA_CSV_FILE);
+            List<IplPlayersDAO> bowlingOutput = bowlingAnalyser.loadData(IPL_BATTING_DATA_CSV_FILE);
+            List<IplPlayersDAO> margedData = battingAnalyser.mergingData(battingOutput, bowlingOutput);
+            List<IplPlayersDAO> SortedDataList = battingAnalyser.bestBattingWithBowlingAverage(margedData, ComparatorParameters.BattingParameter.BATTING_WITH_BOWLING_AVERAGE);
             SortedDataList.forEach(System.out::println);
             Assert.assertEquals("Hardik Pandya", (SortedDataList.get(0).playerName).trim());
         } catch (IPLAnalyserException e) {
